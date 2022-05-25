@@ -1,0 +1,81 @@
+body {
+	font-family: Open Sans, Helvetica, sans-serif;
+}
+
+/* Helper classes */
+.margin-v {
+	margin: 1em 0;
+}
+
+.left-border {
+	border-left: 3px solid #2980B9;
+	padding-left: 10px;
+}
+
+/* Navbar styling */
+.navbar {
+	background: #2980B9;
+	color: #fff;
+	/* override bootstrap */
+	border: none;
+	border-radius: 0;
+}
+
+.navbar a {
+	color: inherit;
+}
+
+.navbar-nav > li > a:hover, .navbar-nav > li.nav-active	 {
+	background-color: #fff;
+	color: #000;
+}
+
+.navbar .icon-bar {
+	background-color: #fff;
+}
+
+table#user-model td.name, table#photo-model td.name, table#comment-model td.name {
+  padding-right: 30px;
+}
+
+ul.list--padding > li {
+  padding: 10px 0;
+}
+
+/* Project page styling */
+.project {
+  padding-bottom: 20px;
+}
+
+/* Examples where white-space shouldn't be collapsed */ 
+.example {
+  white-space: pre;
+}
+
+/* Staff page styling */
+.staff-img {
+	height: 180px;
+}
+
+/* 	Responsive calendar embed
+    Source: Smashing Magazine */
+.calendar-container {
+    position: relative;
+    padding-bottom: 75%;
+    height: 0;
+    overflow: hidden;
+}
+
+.calendar-container iframe {
+    position: absolute;
+    top:0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Footer styling */
+footer {
+	padding: 25px;
+	font-size: .8em;
+}

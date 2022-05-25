@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>CS142 Project 2: JavaScript Calisthenics</title>
+    <meta name="description" content="Web Applications course at Stanford University">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/main.css">
+
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+
+    <script src="js/jquery.min.js"></script> 
+    <script src="js/bootstrap.min.js"></script>
+
+</head>
+
+
+  <body>
+
+    <header>
+
+  <nav class="navbar">
+    <div class="container">
+
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">CS142 (Winter 2021)</a>
+      </div>
+
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-right">
+          
+            
+            
+            <li class="">
+              <a href="index.html">Home</a> 
+            </li>
+          
+            
+            
+            <li class="">
+              <a href="info.html">Class Info</a> 
+            </li>
+          
+            
+            
+            <li class="">
+              <a href="lectures.html">Lectures</a> 
+            </li>
+          
+            
+            
+            <li class="nav-active">
+              <a href="projects.html">Projects</a> 
+            </li>
+          
+            
+            
+            <li class="">
+              <a href="staff.html">Staff</a> 
+            </li>
+          
+        </ul>
+      </div>
+      
+    </div>
+  </nav>
+</header>
+
+
+    
+
+        <main><div class="container">
+	<h1>CS142 Project 2: JavaScript Calisthenics</h1>
+	<h4 class="text-muted">Due: Thursday, January 28, 2021 at 11:59 PM</h4>
+
+	<section>
+		<h3 class="left-border">Setup</h3>
+		<p>
+			Although this project has you run code in your browser, you need to have Node.js installed on your
+			system to run the code quality checker. If you haven't already installed Node.js and the npm package
+			manager, follow the <a href="install.html">installation instructions</a> now.
+		</p>
+		<p>
+		Once you have Node.js installed, create a directory <code>project2</code> and extract the contents of
+		<a href="downloads/project2.zip">this zip file</a> into the directory. The zip
+		file contains the files <code>cs142-test-project2.html</code> and
+		<code>cs142-test-project2.js</code> that act as a testing framework for the code
+		you write in this project.
+		</p>
+		<p>
+		You can fetch the code quality tool, <a href="http://jshint.com/about">JSHint</a>, by running the following command in the
+		<code>project2</code> directory:
+		<div class="code">
+			<pre>npm install</pre>
+		</div>
+		This will fetch JSHint into the <code>node_modules</code> subdirectory. You will be able to run
+		it on all the JavaScript files in <code>project2</code> directory by running the command:
+		<div class="code">
+			<pre>npm run jshint</pre>
+		</div>
+		The code you submit should start with <code>"use strict";</code> in each JavaScript file and running JShint should not output any warnings. <b>Any warnings will be used to deduct style points.</b>
+		</p>
+		<p>
+		To run the assignment open the file <code>cs142-test-project2.html</code> in your
+		browser.  The web page will load the JavaScript and run a few tests.  Since Node.js also
+		contains a JavaScript virtual machine you can also run the tests without a browser
+		using the command:
+		<div class="code">
+			<pre>npm test</pre>
+		</div>
+		The JavaScript development environment is much better in the browser so we suggest you do
+		your development using it.
+		</p>
+		<p><strong>Note:</strong> These tests don't cover all the edge cases. They are there to help guide you and let you know when you have the basic functionality. It is your responsiblity to handle everything stated in the following specs that aren't explicitly tested in the test file we give you.</p>
+		<p>
+		In this project we ask you to write or modify some JavaScript functions.
+		The problems in this assignment are of a practical nature and functionality
+		you develop will be useful in completing later class projects. Given the availability
+		of JavaScript libraries to solve or help solve pretty much any JavaScript
+		tasks you would be assigned, it is likely you could solve these with a couple of
+		lines to call some library routine.  Since the goal of the project is to learn
+		JavaScript, <strong>we forbid you to use any JavaScript libraries in your solutions.</strong>
+        Functions built-in to JavaScript Arrays and Date objects are acceptable.
+		</p>
+	</section>
+
+	<section>
+		<h3 class="left-border">Problem 1: Generate a Multi Filter Function (10 points)</h3>
+		<p>In your <code>project2</code> directory, make a new file named <code>cs142-make-multi-filter.js</code>.The code for your Multi Filter Function will go in this file.</p>
+		<p>
+		Declare a global  function
+        named <code>cs142MakeMultiFilter</code> that takes an array (<code>originalArray</code>)
+        as a parameter and returns a function that can be used to filter the elements of this
+        array.  The returned function (<code>arrayFilterer</code>) internally keeps track of
+        a notion called <code>currentArray</code>. Initially, <code>currentArray</code> is set
+        to be identical to <code>originalArray</code>. The <code>arrayFilterer</code>
+        function takes two functions as parameters. They are:
+		<ol>
+			<li><code>filterCriteria</code> - A function that takes an array element as a parameter and returns a
+            boolean. This function is called on every element of <code>currentArray</code> and
+            <code>currentArray</code> is updated to reflect the results of the <code>filterCriteria</code> function.  If the
+            <code>filterCriteria</code> function returns <code>false</code> for an element, that element should be
+            removed from <code>currentArray</code>. Otherwise, it is left in <code>currentArray</code>. If
+            <code>filterCriteria</code> is not a function, the returned function (<code>arrayFilterer</code>) should
+            immediately return the value of <code>currentArray</code> with no filtering performed.</li>
+			<li><code>callback </code> - A function that will be called when the filtering is
+            done. <code>callback </code>takes the value of <code>currentArray</code> as an argument. Accessing <code>this</code> inside the <code>callback </code> function
+            should reference the value of <code>originalArray</code>. If callback is not a
+            function, it should be ignored. <code>callback</code> does not have a return value.</li>
+		</ol>
+        The <code>arrayFilterer</code> function should return itself unless the <code>filterCriteria</code>
+        parameter is not specified in which case it should return the <code>currentArray</code>.
+		It must be possible to have multiple <code>arrayFilterer</code> functions operating at
+		the same time.
+		</p>
+
+        <p>
+		The following code shows how one might make use of the functions you define in this problem:
+		<div class="code">
+			<pre>// Invoking cs142MakeMultiFilter() with originalArray = [1,2,3] returns a function, saved in the variable arrayFilterer1,
+// that can be used to repeatedly filter the input array
+var arrayFilterer1 = cs142MakeMultiFilter([1,2,3]);
+
+// call arrayFilterer1 (with callback function) to filter out all the numbers not equal to 2
+arrayFilterer1(function (elem) {
+  return elem !== 2; // check if element is not equal to 2
+}, function (currentArray) {
+  console.log(this); // printing 'this' within the callback function should print originalArray which is [1,2,3]
+  console.log(currentArray); // prints [1, 3]
+});
+
+// call arrayFilterer1 (without callback function) to filter out all the elements not equal to 3
+arrayFilterer1(function (elem) {
+  return elem !== 3; // check if element is not equal to 3
+});
+
+// calling arrayFilterer1 with no filterCriteria should return the <code>currentArray</code>
+var currentArray = arrayFilterer1();
+console.log('currentArray', currentArray);   // prints [1] since we filtered out 2 and 3
+
+// Since arrayFilterer returns itself, calls can be chained
+function filterTwos(elem) { return elem !== 2; }
+function filterThrees(elem) { return elem !== 3; }
+var arrayFilterer2 = cs142MakeMultiFilter([1,2,3]);
+var currentArray2 = arrayFilterer2(filterTwos)(filterThrees)();
+console.log('currentArray2', currentArray2);   // prints [1] since we filtered out 2 and 3
+
+// Multiple active filters at the same time
+var arrayFilterer3 = cs142MakeMultiFilter([1,2,3]);
+var arrayFilterer4 = cs142MakeMultiFilter([4,5,6]);
+console.log(arrayFilterer3(filterTwos)());	// prints [1,3]
+console.log(arrayFilterer4(filterThrees)());	// prints [4,5,6]</pre></div>
+		</p>
+	</section>
+
+	<section>
+		<h3 class="left-border">Problem 2: Template Processor (5 points)</h3>
+		<p>In your <code>project2</code> directory, make a new file named <code>cs142-template-processor.js</code>. The code for your Template Processor will go in this file.</p>
+
+		<p>
+		Create a template processor class (<code>Cs142TemplateProcessor</code>)
+		that is constructed with a string parameter <code>template</code> and has a
+        method <code>fillIn</code>. When invoked with an argument of a <code>dictionary</code> object,
+		<code>fillIn</code> returns a string with the template filled in with values from
+		the dictionary object. <code>Cs142TemplateProcessor</code> should be written using the standard
+        JavaScript constructor and prototype structure.
+
+		</p>
+		<p>
+		The <code>fillIn</code> method returns the <code>template</code> string with any text
+		of the form <code>&#123;&#123;property&#125;&#125;</code> replaced with the corresponding <code>property</code>
+		of the <code>dictionary</code> object passed to the function.
+		</p>
+
+		<p>
+		If the template specifies a property that is not defined in the dictionary object, the property should be replaced with an empty string. If the property is between two words, you'll notice that replacing the property with an empty string will result in two consecutive whitespaces. Example: <code>"This &#123;&#123;undefinedProperty&#125;&#125; is cool"</code> -> <code class="example">"This  is cool"</code>. This is fine. You do not have to worry about getting rid of the extra whitespace.
+		</p>
+
+		<p>
+		Your system need only handle properly formatted properties. Its behavior can be left undefined in the following cases as we will not be checking explicitly for them.
+		</p>
+		<ul>
+			<li>nested properties - <code>&#123;&#123;foo &#123;&#123;bar&#125;&#125;&#125;&#125;</code> or <code>&#123;&#123;&#123;&#123;bar&#125;&#125;&#125;&#125;</code> or <code>&#123;&#123;&#123;bar&#125;&#125;&#125;</code> </li>
+			<li>unbalanced brackets - <code>&#123;&#123;bar&#125;&#125;&#125;</code></li>
+			<li>stray brackets in any property string - <code>da&#123;y</code> or <code>da&#125;y</code> </li>
+		</ul>
+
+		<p>
+		 The following code shows how one might make use of the functions you define in this problem:
+		<div><pre>var template = 'My favorite month is &#123;&#123;month&#125;&#125; but not the day &#123;&#123;day&#125;&#125; or the year &#123;&#123;year&#125;&#125;';
+var dateTemplate = new Cs142TemplateProcessor(template);
+
+var dictionary = {month: 'July', day: '1', year: '2016'};
+var str = dateTemplate.fillIn(dictionary);
+
+assert(str === 'My favorite month is July but not the day 1 or the year 2016');
+
+//Case: property doesn't exist in dictionary
+var dictionary2 = {day: '1', year: '2016'};
+var str = dateTemplate.fillIn(dictionary2);
+
+assert(str === 'My favorite month is  but not the day 1 or the year 2016');</pre></div>
+		</p>
+
+	</section>
+
+
+	<section>
+		<h3 class="left-border">Problem 3: Fix <code>cs142-test-project2.js</code> to not pollute the global namespace (5 points)</h3>
+		<p>
+		The test JavaScript file we give you (<code>cs142-test-project2.js</code>) declares
+		numerous symbols in the global JavaScript namespace. For example, after the script
+		is loaded the symbol <code>p1Message</code> appears in the global namespace. Another
+        JavaScript file would then be able to access and change <code>p1Message</code>.
+        Change <code>cs142-test-project2.js</code> to
+		use the standard JavaScript module pattern using an <strong>anonymous function</strong> to hide
+		symbols in the global namespace yet keep the same checking functionality.
+		</p>
+	</section>
+
+	<section>
+		<h3 class="left-border">Style Points (5 points)</h3>
+		<p>
+		These points will be awarded if your JavaScript code for the problems above is clean, readable, and JSHint warning-free.
+		</p>
+	</section>
+
+	<section>
+		<h3 class="left-border">Useful Hints</h3>
+		<ul>
+			<li>In JavaScript, the convention for checking equality/inequality is <code>===</code> and <code>!==</code>, instead of <code>==</code> and <code>!=</code>.</li>
+		</ul>
+        <ul>
+			<li>When running JSHint, make sure the .jshintrc (hidden file) is present, or JSHint will throw an error. You can use the command <code>ls -a</code> (<code>dir /a</code> in a Windows command line) to view all the files in your current directory, including hidden files.</li>
+			</ul>
+        <ul>
+
+			<li>When moving files around, make sure to do that using the command line. Dragging/dropping files usually does not move hidden files which is a common reason for students missing their <code>.jshintrc</code> file.</li>
+		</ul>
+        <ul>
+			<li>The requirement that your solution to Problem 2 support multiple simultaneous uses of
+				<code>cs142MakeMultiFilter</code> means that you should not be using global variables to store the <code>currentArray</code> state.</li>
+		</ul>
+        <ul>
+			<li>In problem 3, you only need to address symbols created by the test file. Also, you will need to leave the variable <code>cs142Project2Results</code> as a global (i.e., property on the <code>window</code> object) so that you can continue to run the tests using the <code>run-tests-using-node.js</code> script.</li>
+		</ul>
+	</section>
+
+	<section>
+		<h3 class="left-border">Deliverables</h3>
+		<p>
+		Use the standard class <a href="submit.html">submission mechanism</a>
+		to submit the <code>project2</code> directory.  This directory should include the starter files
+		we gave you along with code files you created or modified for the problems including
+		<code>cs142-make-multi-filter.js</code>, <code>cs142-template-processor.js</code>,
+		<code>cs142-test-project2.js</code>, and <code>cs142-test-project2.html</code>. Make sure
+			your submission runs <code>npm run jshint</code> and <code>npm test</code> with no
+			errors.
+		</p>
+	</section>
+
+</div>
+</main>
+
+    
+
+    <footer>
+  <div class="container text-center">
+    <small class="text-muted">
+    	Designed by Raymond Luong for CS142 at Stanford University
+    	<br>
+    	Powered by <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a> and <a href="https://jekyllrb.com" target="_blank">Jekyll</a> – <a href="website.html"><strong>learn more</strong></a>
+    </small>
+  </div>
+</footer>
+
+
+  </body>
+
+</html>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>CS 142 Project 3, Problem 1</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="datepicker.css" />
+  </head>
+  <body>
+    <h1>First DatePicker</h1>
+    <div id="datepicker1"></div>
+    <h1>Second DatePicker</h1>
+    <div id="datepicker2"></div>
+    <script type="text/javascript" src="DatePicker.js"></script>
+    <script type="text/javascript">
+        //<![CDATA[
+        datePicker1 = new DatePicker("datepicker1", function(id, fixedDate) {
+          console.log("DatePicker with id", id,
+                  "selected date:", fixedDate.month + "/" + fixedDate.day + "/" + fixedDate.year);
+        });
+        datePicker1.render(new Date());
+
+        datePicker2 = new DatePicker("datepicker2", function(id, fixedDate) {
+          console.log("DatePicker with id", id,
+                  "selected date:", fixedDate.month + "/" + fixedDate.day + "/" + fixedDate.year);
+        });
+        datePicker2.render(new Date("12/23/2021"));
+        //]]>
+    </script>
+  </body>
+</html>

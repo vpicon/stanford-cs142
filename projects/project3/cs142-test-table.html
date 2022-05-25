@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>CS 142 Project 3, Problem 2</title>
+    <link rel="stylesheet" type="text/css" href="cs142-test-table.css" />
+    <script src="./cs142-template-processor.js"></script>
+    <script src="./TableTemplate.js"></script>
+  </head>
+  <body>
+    <h1>TableTemplate Tests</h1>
+    <p>Your filled in tables should appear here:</p>
+    <table style="visibility:hidden;" id="table1" class="example" cellspacing="0">
+      <tr>
+        <td>{{PartNumber}}</td>
+        <td>{{Length}}</td>
+      </tr>
+      <tr><td>{{n14926}}</td><td>{{n47}}</td></tr>
+      <tr><td>{{n773}}</td><td>{{n3_5}}</td></tr>
+      <tr><td>{{n9318}}</td><td>{{n10}}</td></tr>
+      <tr><td>{{n3045}}</td><td>{{n4}}</td></tr>
+    </table>
+    <table style="visibility:hidden;" id="table2" class="example" cellspacing="0">
+      <tr>
+        <td>{{PartNumber}}</td>
+        <td>{{Length}}</td>
+      </tr>
+      <tr><td>{{n14926}}</td><td>{{n47}}</td></tr>
+      <tr><td>{{n773}}</td><td>{{n3_5}}</td></tr>
+      <tr><td>{{n9318}}</td><td>{{n10}}</td></tr>
+      <tr><td>{{n3045}}</td><td>{{n4}}</td></tr>
+    </table>
+    <table style="visibility:hidden;" id="table3" class="example" cellspacing="0">
+      <tr>
+        <td>{{PartNumber}}</td>
+        <td>{{Length}}</td>
+      </tr>
+      <tr><td>{{n14926}}</td><td>{{n47}}</td></tr>
+      <tr><td>{{n773}}</td><td>{{n3_5}}</td></tr>
+      <tr><td>{{n9318}}</td><td>{{n10}}</td></tr>
+      <tr><td>{{n3045}}</td><td>{{n4}}</td></tr>
+    </table>
+    <p>and should look like:</p>
+    <table class="example" cellspacing="0">
+      <tr>
+        <td>Part Number</td>
+        <td>Length</td>
+      </tr>
+      <tr><td>{{n14926}}</td><td>47</td></tr>
+      <tr><td>{{n773}}</td><td>3.5</td></tr>
+      <tr><td>{{n9318}}</td><td>10</td></tr>
+      <tr><td>{{n3045}}</td><td>4</td></tr>
+    </table>
+    
+    <table class="example" cellspacing="0">
+      <tr>
+        <td>Part Number</td>
+        <td>Length</td>
+      </tr>
+      <tr><td>14926</td><td>{{n47}}</td></tr>
+      <tr><td>773</td><td>{{n3_5}}</td></tr>
+      <tr><td>9318</td><td>{{n10}}</td></tr>
+      <tr><td>3045</td><td>{{n4}}</td></tr>
+    </table>
+
+    <table class="example" cellspacing="0">
+      <tr>
+        <td>Part Number</td>
+        <td>Length</td>
+      </tr>
+      <tr><td>14926</td><td>47</td></tr>
+      <tr><td>773</td><td>3.5</td></tr>
+      <tr><td>9318</td><td>10</td></tr>
+      <tr><td>3045</td><td>4</td></tr>
+    </table>
+
+
+    <script type="text/javascript">
+      //<![CDATA[
+      (function patchTable() {
+        var dict = {
+          PartNumber: 'Part Number',
+          Length: 'Length', 
+          n14926: '14926',
+          n47: '47',
+          n773: '773',
+          n3_5: '3.5',
+          n9318: '9318',
+          n10: '10',
+          n3045: '3045',
+          n4: '4'
+        };
+        
+        // fill in second column
+        TableTemplate.fillIn("table1", dict, 'Length');
+        
+        // fill in first column
+        TableTemplate.fillIn("table2", dict, 'Part Number');
+        
+        // no column name passed in
+        TableTemplate.fillIn("table3", dict);
+
+      })();
+      //]]>
+    </script>
+  </body>
+</html>

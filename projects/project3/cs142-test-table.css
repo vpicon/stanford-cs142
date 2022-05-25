@@ -1,0 +1,13 @@
+/* CSS styles for a CS142 project. */
+
+body {font-family: Tahoma, Arial, sans-serif; font-size: 13px;
+    color: #000000; background: #ffffff; margin: 8px;}
+
+/* Styles for sample tables: */
+
+.example {display: inline-block;}
+.example td {padding: 2px 10px 2px 10px; border-top: 1px solid #FFFFFF;
+    vertical-align: top; background: #eeeff2;}
+.example tr:nth-child(odd) td {background: #dfe1e7;}
+.example tr:first-child td {border-top: none; background: #687291;
+    color: #ffffff; white-space: nowrap;}

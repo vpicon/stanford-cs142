@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>CS142 Project 5: Single Page Applications</title>
+    <meta name="description" content="Web Applications course at Stanford University">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/main.css">
+
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+
+    <script src="js/jquery.min.js"></script> 
+    <script src="js/bootstrap.min.js"></script>
+
+</head>
+
+
+  <body>
+
+    <header>
+
+  <nav class="navbar">
+    <div class="container">
+
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">CS142 (Winter 2021)</a>
+      </div>
+
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-right">
+          
+            
+            
+            <li class="">
+              <a href="index.html">Home</a> 
+            </li>
+          
+            
+            
+            <li class="">
+              <a href="info.html">Class Info</a> 
+            </li>
+          
+            
+            
+            <li class="">
+              <a href="lectures.html">Lectures</a> 
+            </li>
+          
+            
+            
+            <li class="nav-active">
+              <a href="projects.html">Projects</a> 
+            </li>
+          
+            
+            
+            <li class="">
+              <a href="staff.html">Staff</a> 
+            </li>
+          
+        </ul>
+      </div>
+      
+    </div>
+  </nav>
+</header>
+
+
+    
+
+        <main><div class="container">
+
+  <h1>CS142 Project 5: Single Page Applications</h1>
+  <h4 class="text-muted">
+    Due: Sunday, February 21, 2021 at 11:59 PM
+  </h4>
+
+  <p>
+    In this project you will use  <a href="https://reactjs.org/">ReactJS</a> with <a href="https://material-ui.com">Material-UI</a>
+    to create the beginnings of a photo-sharing web application. In the second half of this project, you'll also explore retrieving data from a server.
+  </p>
+
+  <section>
+    <h3 class="left-border">Setup</h3>
+    <p>
+      You should already have installed Node.js and the npm package
+      manager to your system.
+      If not, follow the <a href="install.html">installation instructions</a> now.
+    </p>
+    <p>
+      Create a directory <code>project5</code> and extract the contents of
+      <a href="downloads/project5react.zip">this zip file</a> into the directory.
+      The zip file contains the starter files for this assignment.
+    </p>
+    <p>
+      This assignment requires many node modules that contain the tools
+			(e.g. <a href="https://webpack.js.org/">Webpack</a>,
+			 <a href="https://babeljs.io/">Babel</a>,
+			 <a href="https://eslint.org/">ESLint</a>) needed to build a
+			 <a href="https://reactjs.org/">ReactJS</a> web application as well as
+			 a simple Node.js web server (<a href="http://expressjs.com/">ExpressJS</a>)
+			 to serve it to your browser.
+       It also fetches <a href="https://material-ui.com">Material-UI</a> which
+       contain the React components and style sheets we will be using.
+       These modules can be fetched by
+			 running the following command in the <code>project5</code> directory:
+			 <pre>npm install</pre>
+      <a href="https://reactjs.org/">ReactJS</a> and
+      <a href="https://material-ui.com">Material-UI</a>
+      are fetched into the <code>node_modules</code> subdirectory
+      even though we will be loading it into the browser rather than Node.js.
+    </p>
+    <p>
+      Like the previous assignment, we can use npm to run the various tools
+      we had it fetch. The following npm scripts are available
+      in the <code>package.json</code> file:
+    <ul>
+      <li><code>npm run lint</code> - Runs ESLint on all the project's
+        JavaScript files. The code you submit should run ESLint without
+        warnings.
+      </li>
+      <li><code>npm run build</code> - Runs
+        <a href="https://webpack.js.org/">Webpack</a> using the configuration
+        file <code>webpack.config.js</code> to package all of the projects
+        JSX files into a single JavaScipt bundle in the directory
+        <code>compiled</code>.
+      </li>
+      <li><code>npm run build:w</code> - Runs
+        <a href="https://webpack.js.org/">Webpack</a> like the "run build"
+        command except it invokes webpack
+        with <a href="https://webpack.js.org/api/cli/#watch-options">--watch</a> so
+        it will monitor the React components and regenerates the bundle if any
+        of them change.
+      </li>
+    </ul>
+    <p>
+      Your solutions for all of the problems
+      below should be implemented in the <code>project5</code> directory.
+
+      As was done with on the previous project you will need to run a web server we provide for you
+      by running a command in  your <code>project5</code> directory:
+      <div class="code"><pre>node webServer.js</pre></div>
+    </p>
+
+    <p>
+      As in the last project, you can use the command:
+      <div class="code"><pre>node webServer.js & npm run build:w</pre></div>
+      to run the web server and webpack within a single command line window.
+    </p>
+  </section>
+
+  <!-- Problem 1 -->
+  <section>
+    <h3 class="left-border">Problem 1: Create the Photo Sharing Application (40 points)</h3>
+    <p>
+      As starter code for your PhotoApp we provide you a skeleton (<code>photo-share.html</code>
+      which loads <code>photoShare.jsx</code>)
+      that can be started
+      using the URL
+      <a href="http://localhost:3000/photo-share.html"><code>"http://localhost:3000/photo-share.html"</code></a>.
+      The skeleton:
+      <ul>
+        <li>
+          Loads a <a href="https://reactjs.org/">ReactJS</a> web application that
+          uses <a href="https://material-ui.com">Material-UI</a>
+          to layout a Master-Detail pattern as described in class. It has a
+          header made from a
+          <a href="https://material-ui.com/demos/app-bar">Material-UI App Bar</a>
+          accross the top,
+          places a <code>UserList</code> component along the side, and has a
+          content area beside it with either a <code>UserDetail</code> or
+          <code>UserPhotos</code> components.
+        </li>
+        <li>
+          Uses the
+          <a href="https://reacttraining.com/react-router/">React Router</a>
+           to enable deep linking for our single page application by configuring
+           routes to three stubbed out components:
+            <ol>
+              <li>
+                <code>/users</code> is routed to the component <code>UserList</code>
+                in <code>components/userList/</code>
+              </li>
+              <li>
+                <code>/users/:userId</code> is routed to the component
+                <code>UserDetail</code> in  <code>components/userDetail/</code>
+              </li>
+              <li>
+                <code>/photos/:userId</code> is routed to the component
+                <code>UserPhotos</code> in <code>components/userPhotos/</code>
+              </li>
+            </ol>
+          See the use of
+          <a href="https://github.com/ReactTraining/react-router/blob/master/packages/react-router-dom/docs/api/HashRouter.md">
+            HashRouter
+          </a>,
+          and
+          <a href="https://github.com/ReactTraining/react-router/blob/master/packages/react-router/docs/api/Route.md">
+            Route
+          </a>
+          in <code>photoShare.jsx</code>
+          for details.
+          For the stubbed out components in <code>components/*</code>, we
+          provide an empty CSS file and a simple render function that
+          includes some description of what it needs to do and the
+          model data to use.
+        </li>
+      </ul>
+    </p>
+    <p>
+      For this problem, we will continue to use our magic <code>cs142models</code> hack to provide the model data so we display a pre-entered set of information. As before, the models can be accessed using <code>window.cs142Models</code>. The schema of the model data is defined below.
+    </p>
+    <p>
+      Your assignment is to extend the skeleton into a working web app operating on the fake model data.
+      Since the skeleton is already wired to either display components
+      <code>UserList</code>, <code>UserDetail</code>, and <code>UserPhotos</code>
+      with the appropriate parameters passed by React Router,
+      most of the work will be implementing the stubbed out components.
+      They should be filled in so that:
+      <ul>
+        <li>
+          <code>components/userList</code> component should provide navigation to the user details of all the users in the system.
+          The component is embedded in the side bar and should provide a list of user names so that when a name is
+          clicked, the content view area switches to display the details of that user.
+        </li>
+        <li>
+          <code>components/userDetail</code> component is passed a <code>userId</code> in the <code>props.match</code>
+          by React Router. The view should display the details of the user in a pleasing way
+          along with a link to switch the view area to the photos of the user using
+          the <code>UserPhotos</code> component.
+        </li>
+        <li>
+          <code>components/userPhotos</code> component is passed a <code>userId</code>,
+          and should display all the photos of the specified user. It must display
+          all of the photos belonging to that user.  For each photo you must
+          display the photo itself, the creation date/time for the photo, and
+          all of the comments for that photo.  For each comment you must display the
+          date/time when the comment was created, the name of the user who created the comment,
+          and the text of the comment.  The creator for each comment should be a link that
+          can be clicked to switch to the user detail page for that user.
+        </li>
+      </ul>
+    </p>
+    <p>
+      Besides these components, you need to update the <code>TopBar</code> component in
+      <code>components/topBar</code> as follows:
+      <ul>
+        <li>
+          The left side of the <code>TopBar</code> should have your name.
+        </l1>
+        <li>
+          The right side of the <code>TopBar</code> should provide app context by
+          reflecting what is being shown in the main content region.  For example,
+          if the main content is displaying details on a user the toolbar should
+           have the user's name. If it is displaying a user's photos it
+           should say "Photos of " and the user's name.
+        </li>
+      </ul>
+    </p>
+    <p>
+      The use of ReactRouter in the skeleton we provide allows for deep-linking to the different views of
+      the application. Make sure the components you build do not break this capability. It should be
+      possible to do a browser refresh on any view and have it come back as before. Our
+      standard approach to building components handles deep-linking automatically. Care must be taken when doing
+      things like sharing objects between components.  A quick browser refresh test on each view will show
+      when you broke something.
+    </p>
+    <p>
+      Although you don't need to spend a lot of time on the appearance of the app,
+      it should be neat and understandable. The information layout should be
+      clean (e.g., it should be clear which photo each comment applies to).
+    </p>
+    <h4 class="left-border model-data">Photo App Model Data</h4>
+    <p>
+      For this problem we keep the magic DOM loaded model data we used in the previous project. The model consists of four types of objects:
+      <code>user</code>, <code>photo</code>, <code>comment</code>, and <code>SchemaInfo</code> types.
+    </p>
+      <ul>
+        <li>
+          Photos in the photo-sharing site are organized by user.
+          We will represent users as an object <code>user</code>
+          with the following properties:
+          <table id="user-model" class="def" cellspacing ="0">
+            <tr>
+              <td class="name">_id:</td><td>The ID of this user.</td>
+            </tr>
+            <tr>
+              <td class="name">first_name:</td><td>First name of the user.</td>
+            </tr>
+            <tr>
+              <td class="name">last_name:</td><td>Last name of the user.</td>
+            </tr>
+            <tr>
+              <td class="name">location:</td><td>Location of the user.</td>
+            </tr>
+            <tr>
+              <td class="name">description:</td><td>A brief user description.</td>
+            </tr>
+            <tr>
+              <td class="name">occupation:</td><td>Occupation of the user.</td>
+            </tr>
+          </table>
+          The DOM function <code>window.cs142models.userModel(user_id)</code> returns
+          the <code>user</code> object of the user with id <code>user_id</code>.
+          The DOM function <code>window.cs142models.userListModel()</code> returns an
+          array with all <code>user</code> objects, one for each the users of the app.
+        </li>
+        <li>
+          Each user can upload multiple photos. We represent each photo by
+          a <code>photo</code> object with the following properties:
+          <table id="photo-model" class="def" cellspacing ="0">
+            <tr>
+              <td class="name">_id:</td>
+              <td>The ID for this photo.</td>
+            </tr>
+            <tr>
+              <td class="name">user_id:</td>
+              <td>
+                The ID of the <code>user</code> who created the photo.
+              </td>
+            </tr>
+            <tr>
+              <td class="name">date_time:</td>
+              <td>
+                The date and time when the photo was added to the database.
+              </td>
+            </tr>
+            <tr>
+              <td class="name">file_name:</td>
+              <td>
+                Name of a file containing the actual photo (in the directory <code>project5/images</code>).
+              </td>
+            </tr>
+             <tr>
+              <td class="name">comments:</td>
+              <td>
+                An array of the <code>comment</code> objects representing the comments made on this photo.
+              </td>
+            </tr>
+          </table>
+          The DOM function <code>window.cs142models.photoOfUserModel(user_id)</code>
+          returns an array of the <code>photo</code> objects belonging to the user
+          with id <code>user_id</code>.
+        </li>
+        <li>
+          For each photo there can be multiple comments (any user can comment on any photo).
+          <code>comment</code> objects have the following properties:
+          <table id="comment-model" class="def" cellspacing ="0">
+            <tr>
+              <td class="name">_id:</td><td>The ID for this comment.</td>
+            </tr>
+            <tr>
+              <td class="name">photo_id:</td><td>The ID of the <code>photo</code> to which this comment belongs.</td>
+            </tr>
+            <tr>
+              <td class="name">user:</td><td>The <code>user</code> object of the user who created the comment.</td>
+            </tr>
+            <tr>
+              <td class="name">date_time</td><td>The date and time when the comment was created.</td>
+            </tr>
+            <tr>
+              <td class="name">comment</td><td>The text of the comment.</td>
+            </tr>
+          </table>
+        </li>
+        <li>
+          For testing purposes we have
+          <code>SchemaInfo</code> objects have the following properties:
+          <table id="schema-model" class="def" cellspacing ="0">
+            <tr>
+              <td class="name">_id:</td><td>The ID for this SchemaInfo.</td>
+            </tr>
+            <tr>
+              <td class="name">__v:</td><td>Version number of the SchemaInfo object.</td>
+            </tr>
+            <tr>
+              <td class="name">load_date_time:</td><td>The date and time when the
+              SchemaInfo was loaded. A string.</td>
+            </tr>
+          </table>
+        </li>
+      </ul>
+  </section>
+
+  <!-- Problem 2 -->
+  <section>
+    <h3 class="left-border">Problem 2: Fetch model data from the web server (20 points)</h3>
+    <p>
+      After doing Problem 1, our photo sharing app front-end is looking like a real web application.
+      The big barrier to be considered real is the fakery we are doing with the model data loaded
+      as JavaScript into the DOM. In this Problem we remove this hack and have the app fetch
+      models from the web server as would typically be done in a real application.
+    </p>
+    <p>
+      The <code>webServer.js</code> given out with this project reads in the <code>cs142Models</code>
+      we were loading into the DOM in Problem 1 and makes them available using
+      <a href="http://expressjs.com">ExpressJS</a> routes. The API exported by
+      <code>webServer.js</code> uses HTTP GET requests to particular URLs to return the
+      <code>cs142Models</code> models. The HTTP response to these GET requests is encoded in JSON.
+      The API is:
+      <ul>
+        <li><code>/test/info</code> - Returns <code>cs142models.schemaInfo()</code>. This URL is useful
+        for testing your model fetching method.</li>
+        <li><code>/user/list</code> - Returns <code>cs142models.userListModel()</code>.</li>
+        <li><code>/user/:id</code> - Returns <code>cs142models.userModel(id)</code>.</li>
+        <li><code>/photosOfUser/:id</code> - Returns <code>cs142models.photoOfUserModel(id)</code>. </li>
+      </ul>
+      <p>
+        You can see the APIs in action by pointing your browser at above URLs. For example, the
+        links
+        <a href="http://localhost:3000/test/info"><code>"http://localhost:3000/test/info"</code></a>
+        and
+        <a href="http://localhost:3000/user/list"><code>"http://localhost:3000/user/list"</code></a>
+        wiil return the JSON-encoded model data in the browser's window.
+      </p>
+    <p>
+      To convert your app to fetch models from the web server you should implement a FetchModel
+      function in <code>lib/fetchModelData.js</code>.  The function should be declared as follows:
+    </p>
+    <div class="code"><pre>
+     /*
+      * FetchModel - Fetch a model from the web server.
+      *   url - string - The URL to issue the GET request.
+      * Returns: a Promise that should be filled
+      * with the response of the GET request parsed
+      * as a JSON object and returned in the property
+      * named "data" of an object.
+      * If the requests has an error the promise should be
+      * rejected with an object contain the properties:
+      *    status:  The HTTP response status
+      *    statusText:  The statusText from the xhr request
+      */
+    </pre></div>
+    <p class="noTopMargin">
+      Although there many modules that would make implementing this function trivial,
+      we want you to learn about the low-level details of AJAX. You may not use other
+      libraries to implement FetchModel; you must write Javascript code that creates
+      XMLHttpRequest DOM objects and responds to their events.
+    <p>
+      Your solution needs to be able to handle multiple outstanding FetchModel requests.
+      To demonstrate your FetchModel routine works, your web application should work so
+      that visiting
+      <code>http://localhost:3000/photo-share.html</code>
+      displays the version number returned by sending an AJAX request to the
+      <code>http://localhost:3000/test/info</code> URL. The version number should
+      be displayed in the <code>TopBar</code> component of your app.
+    </p>
+    <p>
+      After successfully implementing the FetchModel function in <code>lib/fetchModelData.js</code>, you should modify the code in
+      <ul>
+        <li><code>components/userDetail/UserDetail.jsx</code></li>
+        <li><code>components/userList/UserList.jsx</code></li>
+        <li><code>components/userPhotos/UserPhotos.jsx</code></li>
+      </ul>
+      to use the FetchModel function to request the data from the server.
+      There should be no accesses to <code>window.cs142models</code> in your code
+      and your app should work without
+      the line in <code>photo-share.html</code>:<div class="code"><pre>&lt;script src="modelData/photoApp.js"&gt;&lt;script&gt;</pre></div>
+    </p>
+
+
+  </section>
+
+
+  <!-- Style Points -->
+  <section>
+    <h3 class="left-border">Style Points (5 points)</h3>
+    <p>
+    These points will be awarded if your problem solutions have proper
+    MVC decomposition. In addition, your code and components must be clean and
+    readable, and your app must be at least "reasonably nice"
+    in appearance and convenience.
+    </p>
+
+    <p>
+    Note that we are using  <a href="https://material-ui.com">Material-UI</a>,
+    React components that implement Google's <a href="https://material.io">Material Design</a>.
+    We have used Material-UI's <a href="https://material-ui.com/layout/grid">Grid component</a>
+    to layout the Master-Detail pattern as described in class, and a
+    <a href="https://material-ui.com/demos/app-bar">App Bar</a>
+    header for you. Although you don't need to build a fully Material Design
+    compatible app, you should use <a href="https://material-ui.com">Material-UI</a>
+    components when possible.
+    </p>
+
+    <p>
+    In addition, remember to run ESLint before submitting. ESLint should raise no errors.
+    </p>
+  </section>
+
+  <!-- Extra Credit -->
+  <section>
+    <h3 class="left-border">Extra Credit (5 points)</h3>
+    <p>
+      The <code>userPhotos</code> component specifies that the display should include
+      all of a user's photos along the photos' comments. This approach doesn't work well for users with a large numbers of photos. For extra credit you can implement a photo viewer that only shows one photo at a time (along with the photo's comments) and provides a mechanism to step forward or backward through the user's photos (i.e. a stepper).
+    </p>
+    <p>
+      In order to get extra credit on this assignment your solution must:
+      <ul>
+        <li>
+          Introduce the concept of "advanced features" to your photo app.
+          On app startup "advanced features" is always disabled.  The toolbar on the app
+          should have a checkbox labelled "Enable Advanced Features" that displays the current
+          state of "advanced features" (checked meaning advanced features is enabled)
+          and supports changing the enable/disable state of the advanced features.
+        </li>
+        <li>
+          Your app should use the original photo view unless the "advanced features" have been enabled by the checkbox. If enabled, viewing the photos of a user should use the single photo with stepper functionality.
+        </li>
+        <li>
+          The user interface for stepping should be something obvious and the mechanism should indicate (e.g. a disabled button) if stepping is not possible in a direction
+          because the user is at the first (for backward stepping) or last photo (for forward stepping).
+        </li>
+        <li>
+          Your app should allow individual photos to be bookmarked and shared by copying the URL from the browser location bar. The browser's forward and back buttons should do what would be expected. When entering the app using a deep linked URL to individual photos the stepper functionality should operate as expected.
+        </li>
+      </ul>
+    </p>
+    <p>
+      Warning: Doing this extra credit involves touching various pieces used in the non-extra credit
+      part of the assignment. Adding new functionality guarded by a <i>feature flag</i> is common
+      practice in web applications but has a risk in that if you break the non-extra credit part
+      of the assignment you can lose more points than you could get from the extra credit. Take care.
+    </p>
+  </section>
+
+  <!-- Deliverables -->
+  <section>
+    <h3 class="left-border">Deliverables</h3>
+    <p>
+      Use the standard class <a href="submit.html">submission mechanism</a>
+      to submit the entire application (everything in the <code>project5</code>
+      directory).  Please clean up your project directory before submitting,
+      as described in the instructions. In particular, the node_modules directory
+      is 180MB in size so you won't want to copy it to the Farmshare machines.
+    </p>
+  </section>
+
+</div>
+</main>
+
+    
+
+    <footer>
+  <div class="container text-center">
+    <small class="text-muted">
+    	Designed by Raymond Luong for CS142 at Stanford University
+    	<br>
+    	Powered by <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a> and <a href="https://jekyllrb.com" target="_blank">Jekyll</a> – <a href="website.html"><strong>learn more</strong></a>
+    </small>
+  </div>
+</footer>
+
+
+  </body>
+
+</html>

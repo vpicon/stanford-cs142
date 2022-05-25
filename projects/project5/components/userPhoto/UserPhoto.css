@@ -1,0 +1,16 @@
+.user-photo-image {
+  width: 50%;
+}
+
+.photo-upload-text {
+  text-align: right;
+}
+
+.comment-upload-time {
+  text-align: right;
+}
+
+.comment-user .link{display:none} {
+  color: inherit;
+  text-decoration: inherit;
+}

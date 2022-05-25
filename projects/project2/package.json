@@ -1,0 +1,17 @@
+{
+  "name": "project2",
+  "version": "1.0.0",
+  "private": true,
+  "description": "cs142 project2 - JavaScript Calisthenics",
+  "main": "cs142-test-project2.js",
+  "dependencies": {
+    "jshint": "^2.9.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node run-tests-using-node.js",
+    "jshint": "./node_modules/.bin/jshint --config .jshintrc --exclude=node_modules . || exit 0"
+  },
+  "author": "Mendel Rosenblum <mendel@cs.stanford.edu> (http://www.stanford.edu/~mendel)",
+  "license": "ISC"
+}

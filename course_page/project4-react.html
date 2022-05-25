@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>CS142 Project 4: Page Generation with ReactJS</title>
+    <meta name="description" content="Web Applications course at Stanford University">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/main.css">
+
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+
+    <script src="js/jquery.min.js"></script> 
+    <script src="js/bootstrap.min.js"></script>
+
+</head>
+
+
+  <body>
+
+    <header>
+
+  <nav class="navbar">
+    <div class="container">
+
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">CS142 (Winter 2021)</a>
+      </div>
+
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-right">
+          
+            
+            
+            <li class="">
+              <a href="index.html">Home</a> 
+            </li>
+          
+            
+            
+            <li class="">
+              <a href="info.html">Class Info</a> 
+            </li>
+          
+            
+            
+            <li class="">
+              <a href="lectures.html">Lectures</a> 
+            </li>
+          
+            
+            
+            <li class="nav-active">
+              <a href="projects.html">Projects</a> 
+            </li>
+          
+            
+            
+            <li class="">
+              <a href="staff.html">Staff</a> 
+            </li>
+          
+        </ul>
+      </div>
+      
+    </div>
+  </nav>
+</header>
+
+
+    
+
+        <main><div class="container">
+
+	<h1>CS142 Project 4: Page Generation with ReactJS</h1>
+	<h4 class="text-muted">Due: Thursday, February 11, 2021 at 11:59 PM</h4>
+
+	<section>
+		<h3 class="left-border">Setup</h3>
+		<p>
+			You should already have installed Node.js and the npm package manager on your system.
+			If not, follow the <a href="install.html">installation instructions</a> now.
+		</p>
+		<p>
+			Create a directory <code>project4</code> and extract the contents of <a href="downloads/project4react.zip">
+			this zip file</a> into the directory. The zip file contains the starter files for this assignment.
+		</p>
+		<p>
+			This assignment requires many node modules that contain the tools
+			(e.g. <a href="https://webpack.js.org/">Webpack</a>,
+			 <a href="https://babeljs.io/">Babel</a>,
+			 <a href="https://eslint.org/">ESLint</a>) needed to build a
+			 <a href="https://reactjs.org/">ReactJS</a> web application as well as
+			 a simple Node.js web server (<a href="http://expressjs.com/">ExpressJS</a>)
+			 to serve it to your browser. These modules can be fetched by
+			 running the following command in the <code>project4</code> directory:
+			 <pre>npm install</pre>
+			 That command will fetch around 650 node modules using around
+			 150 megabytes of space into the subdirectory <code>node_modules</code>.
+		</p>
+		<p>
+			We can use npm to run the various tools we had it fetch. As can be
+			seen in the "scripts" property of the <code>package.json</code> file, the
+			following run commands are available:
+			<ul>
+				<li><code>npm run lint</code> - Runs ESLint on all the project's
+					JavaScript files. The code you submit should run ESLint without
+					warnings.
+				</li>
+				<li><code>npm run build</code> - Runs
+					<a href="https://webpack.js.org/">Webpack</a> using the configuration
+					file <code>webpack.config.js</code> to package all of the projects
+					JSX files into a single JavaScript bundle in the directory
+					<code>compiled</code>.
+				</li>
+				<li><code>npm run build:w</code> - Runs
+					<a href="https://webpack.js.org/">Webpack</a> like the "run build"
+					command except it invokes webpack
+					with <a href="https://webpack.js.org/api/cli/#watch-options">--watch</a> so
+					it will monitor the React components and regenerates the bundle if any
+					of them change. This option is useful for development so changes made
+					to components can be picked up by simply refreshing the browser to
+					load the newly updated bundle. Otherwise you need to remember to
+					run "npm run build" after every change.  	You might get a deprecation warning
+					[DEP_WEBPACK_WATCH_WITHOUT_CALLBACK] that	you can safely ignore.
+				</li>
+			</ul>
+		</p>
+		<p>
+			Your solutions for all of the problems below should be implemented in the <code>project4</code> directory.
+		</p>
+		<p>
+			This project uses <a href="https://reactjs.org/">ReactJS</a>, a
+			popular framework for building web applications. The project's goal
+			is to get you enough up to speed with ReactJS and the CS142's coding
+			conventions that you
+			will be able to build a web application with it in the next project.
+		</p>
+		<p>
+		  In order to fetch our web app via the HTTP protocol, we use a simple Node.js
+			web server that can be started with the command from the <code>project4</code> directory:
+			<pre>node webServer.js</pre>
+		</p>
+		<p>
+			All the files in the <code>project4</code> can be fetched using an URL starting with
+			<a href="http://localhost:3000">http://localhost:3000</a>.  Click on
+			<a href="http://localhost:3000">http://localhost:3000</a> to verify your
+			web server is running. It should serve the file <code>index.html</code> to your browser.
+		</p>
+		<p>
+			We recommend you configure your development environment to run webpack in watch mode so you
+			will need to run the node webserver and webpack when building and testing your project. You
+			could do this by running the programs in different command line windows.  Syntax errors
+			get detected and reported by Babel so the output of webpack is useful.  If you are running
+			on a system with a unix-like shell like MacOS.  The command:
+			<pre>node webServer.js & npm run build:w</pre>
+			runs the web server in background and the webpack in foreground within a single window.
+		</p>
+		<p>
+			On Windows you can start the web server in background and webpack in
+			foreground with the two Windows commands:
+			<pre>start /B node webServer.js<br/>npm run build:w</pre>
+			You can stop the background webserver with the command:
+      <pre>taskkill /IM node.exe /F</pre>
+		</p>
+	</section>
+
+	<section>
+		<h3 class="left-border">Getting Started</h3>
+		<p>
+			In this project we require that you use the model, view, controller pattern described in class.
+			There are many ways of organizing code under this pattern so we provide an example that both
+			demonstrates some basic ReactJS features as well as showing the file system layout and module
+			pattern we would like you to follow in your projects.
+		</p>
+		<p>
+			You should start by opening the example in your browser by navigating to the URL
+			<a href="http://localhost:3000/getting-started.html">http://localhost:3000/getting-started.html</a>.
+			The page displays examples of ReactJS in action.  The HTML in <code>getting-started.html</code> provides
+			a div for ReactJS to draw the app into and a script tag include the app's JavaScript bundle
+			<code>compiled/gettingStarted.bundle.js</code>. The webpack config
+			file <code><a href="http://localhost:3000/webpack.config.js">webpack.config.js</a></code>
+			directs that this bundle be created from the ReactJS file <code>gettingStarted.jsx</code>, a JSX
+			program that renders the ReactJS component named <code>Example</code> into the div in getting-started.html.
+		</p>
+		<p>
+			To support reusable components, we adopt a file organization that co-locates the ReactJS
+			component and its associated CSS stylesheet in a subdirectory of a directory
+			named	<code>components</code>. The <code>Example</code> component is located
+			in the files <code>components/example/{Example.jsx,Example.css}</code>.
+		</p>
+			You should look through the files invoked in the getting-started.html view
+			(<code>getting-started.html</code>, <code>gettingStarted.jsx</code>,
+			<code>components/example/{Example.jsx</code>) since it shows the JavaScript
+			and JSX statements needed to run an ReactJS web application along with
+			explanatory comments. 	You should use this
+			pattern and file naming convention for the other components you build for the class.
+		</p>
+		<p>
+			Model data is typically fetched from the webserver which retrieves the data from a database.
+			To avoid having to set up a database for this project we will give you an HTML script tag
+			to load the model data directly into the browser's DOM from the local file system.
+			The models will appear in the DOM under the property name <code>cs142models</code>. You will be
+			able to access it under the name <code>window.cs142models</code> in a ReactJS component.
+		</p>
+	</section>
+
+	<section>
+		<h3 class="left-border">Problem 1: Understand and update the example view (5 points)</h3>
+		<p>
+			You should look through and understand the <code>getting-started.html</code> view
+			and the <code>Example</code> component. To demonstrate your understanding do the
+			following:
+		</p>
+		<ol>
+			<li>
+				Update the model data for the Example component to use your name rather than "Unknown name".
+				You should find where "Unknown name" is and replace it.
+		  </li>
+			<li>
+				Replace the contents of the <code>div</code> region with the class <code>motto-update</code> in the
+				Example component with some JSX statements that displays your name and a
+				short (up to 20 characters) motto. Like the user's name, the initial value for
+			  motto should come in with the model data. You must include some styling for this display
+				in <code>Example.css</code>.
+			</li>
+			<li>
+				Extend the display you did in the previous step so it allows the user to update the motto being
+				displayed. The default value should continue to be retrieved from the model data.
+			</li>
+		</ol>
+	</section>
+
+	<section>
+		<h3 class="left-border">Problem 2: Create a new component - states view (10 points)</h3>
+		<p>
+			Create a new component view that will display the names of all states
+			containing a given substring. Your view must implement an input field
+			that accepts a substring. The view will display in
+			alphabetical order a <strong>list</strong> of all states whose names contain the given substring
+			(ignoring differences in case).  For example, the view for the substring of "al"
+			should list the states Alabama, Alaska, and California. The page should also display the
+			substring that was used to filter the states. If there are no
+			matching states then the web page should display a message indicating
+			that fact (rather than just showing nothing). All states should be displayed when the substring is empty.
+		</p>
+		<p>
+			As in Problem #1 we provide you the model data with states.  It can
+			be accessed via <code>window.cs142models.states</code> after it is included with:
+		</p>
+		<pre>&lt;script src="modelData/states.js"&gt;&lt;/script&gt;</pre>
+		<p>
+			See <code>states.js</code> for a description of the format of the states data.
+		</p>
+		<p>
+			To help you get started and guide you to the file naming conventions we
+			want you to use we provided a file <code>p2.html</code> that will load
+			and display the bundle <code>compiled/p2.bundle.js</code> which
+			is generated by webpack from <code>p2.jsx</code> which displays
+			the React component <code>States</code>.
+			You can open this file in your browser via
+			the URL <a href="http://localhost:3000/p2.html">http://localhost:3000/p2.html</a>.
+		</p>
+		<p>
+			The files you will need to implement are:
+			<ul>
+				<li><code>components/states/States.jsx</code> - The ReactJS Component
+				 of your states component.
+			 </li>
+			 <li>
+					<code>components/states/States.css</code> - Any CSS styles your component
+				 needs. <strong>You must include some styling for your state list here.</strong>
+			  </li>
+			</ul>
+		</p>
+	</section>
+
+	<section>
+		<h3 class="left-border">Problem 3: Personalizing the Layout (5 points)</h3>
+		<p>
+			Create a ReactJS component named <code>Header</code> that will display a personalized
+			header at the top of a view. Add this header to all ReactJS
+            web apps in your assignment (<code>gettingStarted.jsx</code>, <code>p2.jsx</code>,
+            <code>p4.jsx</code>, <code>p5.jsx</code>).
+						Note that you <b> should not </b> replace the section from part 1 (your name and motto). That section should be separate from your header.
+            Use your imagination and creativity to
+			create a header that is "uniquely you". This can include additional images,
+			graphics, whatever you like.  You can extend the JSX/JavaScript in the
+			components but you may not use external ReactJS Components or JavaScript
+			libraries such as JQuery. Be creative!
+		</p>
+        <p>
+            The files you will need to implement are:
+			<ul>
+				<li><code>components/header/Header.jsx</code> - The ReactJS Component
+				 of your header component. This is defined as a class Header of type
+				 <a href="https://reactjs.org/docs/react-component.html">React.Component</a>.
+			 </li>
+				<li><code>components/header/Header.css</code> - Any CSS styles your component
+				needs. <strong>You must include some styling for your header here.</strong></li>
+			</ul>
+	    Note: <code>gettingStarted.jsx</code> should have a
+			personalized header from Problem 3 at the top of the page and the section
+			with the motto from Problem 1.2 right below it. All other page views
+			(<code>p2.html</code>, <code>p4.html</code> and <code>p5.html</code>)
+			should have your personalized header from Problem 3.
+        </p>
+	</section>
+
+	<section>
+		<h3 class="left-border">Problem 4: Add dynamic switching of the views (10 points)</h3>
+		<p>
+		Create a <code>p4.html</code> and a corresponding JSX file
+    <code>p4.jsx</code>
+		that includes both view components
+		(the <code>Example</code> and <code>States</code>  components). The
+		<code>p4.jsx</code> needs
+		to implement an ability to switch between the display of the two components.
+		When a view is displayed there should be a button above it that switches
+		to display the other view.  For example, when the <code>States</code> view
+		is displayed the button above it should read "Switch to Example," and when
+		pushed the <code>States</code> should disappear and the <code>Example</code>
+		view should be displayed.
+		</p>
+		<p>For this problem you will need to create the files above as well as
+			modify the webpack configuration file <code>webpack.config.js</code>
+			to build a file <code>compiled/p4.bundle.js</code> that you can
+			uses in <code>p4.html</code> file. Note that if you are using Webpack with
+			--watch (i.e. npm run build:w), you will need to restart it after
+			changing code>webpack.config.js</code>.
+		</p>
+	</section>
+
+	<section>
+		<h3 class="left-border">Problem 5: Single page app (5 points)</h3>
+		<p>
+		Although the approach taken in Problem 4 allows you to switch between
+		the two views, it does not allow you to bookmark or share a URL pointing
+		at a particular view.  Even doing a browser refresh event causes the app to
+		lose track of which view was being displayed.
+		</p>
+		<p>
+		We can address this deficiency by storing the view information into the URL.
+		<a href="https://reacttraining.com/react-router/">React Router</a> provides
+		this functionality for ReactJS. For this problem make a
+		copy of your <code>p4.html</code> solution into a file named <code>p5.html</code>
+		and copy your <code>p4.jsx</code> into a file named <code>p5.jsx</code>.
+		Convert the code to use <a href="https://reacttraining.com/react-router/">React Router</a>
+		to switch between the two component views. You should have a <strong>styled toolbar-like
+		control</strong> (simple plain text links are not sufficient)
+		that will allow the user to switch between the example and states
+		component views.
+		</p>
+		<p>
+		Since this is the first extension from the core ReactJS we import, we're providing
+		you with step-by-step instructions.
+		</p>
+		<ol>
+			<li>The project's <code>package.json</code> specifies react-router
+				so the npm install command already fetched it for us. We do need
+				to explicitly import it into our <code>p5.jsx</code> file. Add
+				the following import line:
+				<pre>import { HashRouter, Route, Link } from "react-router-dom";</pre>
+				The line uses the JavaScript
+				<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/importinport">
+					import
+				</a>
+				statement to bring in the ReactJS components from React Router:
+				<a href="https://github.com/ReactTraining/react-router/blob/master/packages/react-router-dom/docs/api/HashRouter.md">
+					HashRouter
+				</a>,
+				<a href="https://github.com/ReactTraining/react-router/blob/master/packages/react-router/docs/api/Route.md">
+				  Route
+				</a>, and
+				<a href="https://github.com/ReactTraining/react-router/blob/master/packages/react-router-dom/docs/api/Link.md">
+					Link
+				</a>.
+				The HashRouter module of React Router uses the fragment portion of the URL
+				for storing information. So we can make
+			  <code>p5.html#/states</code> mark showing the States
+				view while <code>p5.html#/example</code> specifies the Example component
+				view.
+			</li>
+			<li>
+			The most common way of using React Router is to conditionally render
+			the view we want based on the current URL.  It is
+			the <a href="https://github.com/ReactTraining/react-router/blob/master/packages/react-router/docs/api/Route.md">
+				Route
+			</a> component that implements this condition rendering when placed inside
+			a HashRouter element like:
+			<pre>
+				&lt;HashRouter>
+				  ...
+					&lt;Route path="/states" component={States} />
+			  	&lt;Route path="/example" component={Example} />
+					...
+				&lt;/HashRouter>
+			</pre>
+			which would render the States component if the URL had <code>#/states</code> and
+			the Example component if the URL had <code>#/example</code>.
+			</li>
+			<li>
+		  Although we could use hyperlinks (i.e. &lt;a tags) to switch views
+			react-router recommends using the Link component to generated the
+			hyperlinks.
+			<pre>
+				&lt;Link to="/states">States&lt;/Link>
+			</pre>
+			generates a hyperlink with href="#/states" and the strings "States"
+			in it.
+			</li>
+		</ol>
+	</section>
+
+    <section>
+    	<h3 class="left-border">Style (5 points)</h3>
+		<p>
+		These points will be awarded if your solutions have proper MVC decomposition and follow
+		the style guidelines discussed in lecture and section. <strong>Note that you should not directly
+    manipulate the DOM in your code.</strong>
+		In addition, your code and templates must be clean and readable.
+		Remember to run ESLint before submitting. ESLint should raise no errors.
+		</p>
+	</section>
+
+	<section>
+		<h3 class="left-border">Deliverables</h3>
+		<p>
+			<strong>After implementing part 5, make sure parts 1 through 4 still work!</strong>
+		</p>
+		<p>
+		Use the standard class <a href="submit.html">submission mechanism</a>
+		to submit the entire application (everything in the <code>project4</code>
+		directory).
+		</p>
+	</section>
+
+</div>
+</main>
+
+    
+
+    <footer>
+  <div class="container text-center">
+    <small class="text-muted">
+    	Designed by Raymond Luong for CS142 at Stanford University
+    	<br>
+    	Powered by <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a> and <a href="https://jekyllrb.com" target="_blank">Jekyll</a> – <a href="website.html"><strong>learn more</strong></a>
+    </small>
+  </div>
+</footer>
+
+
+  </body>
+
+</html>

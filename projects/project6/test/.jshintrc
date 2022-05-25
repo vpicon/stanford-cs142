@@ -1,0 +1,60 @@
+{
+
+    // Predefined globals whom JSHint will ignore.
+    "node"       : true,  
+
+
+    "globals": { // Globals variables.
+        "cs142App": true,
+        "angular": true,
+        "browser": true,
+        "element": true,
+        "by":true,
+        "io":true,
+        "_":true,
+        "$":false, 
+        "describe": true,
+        "it": true
+    },
+
+    // Development.
+    "debug"         : false,  // Allow debugger statements e.g. browser breakpoints.
+    "devel"         : true,   // Allow developments statements e.g. `console.log();`.
+
+
+    // ECMAScript 5.
+    "globalstrict"  : true,  // Allow global "use strict" (also enables 'strict').
+    "strict": false,         // For this project with run with global strict so don't require local
+
+
+    // The Good Parts.
+    "boss"          : false,  // Tolerate assignments inside if, for & while. Usually conditions & loops are for comparison, not assignments.
+    "curly"         : true,   // Require {} for every new block or scope.
+    "eqeqeq"        : true,   // Require triple equals i.e. `===`.
+    "eqnull"        : false,  // Tolerate use of `== null`.
+    "evil"          : false,  // Tolerate use of `eval`.
+    "expr"          : false,  // Tolerate `ExpressionStatement` as Programs.
+    "forin"         : false,  // Tolerate `for in` loops without `hasOwnPrototype`.
+    "immed"         : true,   // Require immediate invocations to be wrapped in parens e.g. `( function(){}() );`
+    "latedef"       : true,   // Prohipit variable use before definition.
+    "loopfunc"      : true,  // Allow functions to be defined within loops.
+    "noarg"         : true,   // Prohibit use of `arguments.caller` and `arguments.callee`.
+    "regexp"        : true,   // Prohibit `.` and `[^...]` in regular expressions.
+    "regexdash"     : false,  // Tolerate unescaped last dash i.e. `[-...]`.
+    "scripturl"     : true,   // Tolerate script-targeted URLs.
+    "supernew"      : false,  // Tolerate `new function () { ... };` and `new Object;`.
+    "undef"         : true,   // Require all non-global variables be declared before they are used.
+
+
+    // Personal styling preferences.
+    "newcap"        : true,   // Require capitalization of all constructor functions e.g. `new F()`.
+    "noempty"       : true,   // Prohibit use of empty blocks.
+    "nonew"         : true,   // Prohibit use of constructors for side-effects.
+    "nomen"         : true,   // Prohibit use of initial or trailing underbars in names.
+    "onevar"        : false,  // Allow only one `var` statement per function.
+    "plusplus"      : false,  // Prohibit use of `++` & `--`.
+    "sub"           : false,  // Tolerate all forms of subscript notation besides dot notation e.g. `dict['key']` instead of `dict.key`.
+    "trailing"      : true,   // Prohibit trailing whitespaces.
+    "white"         : false,  // Check against strict whitespace and indentation rules.
+    "indent"        : 2       // Specify indentation spacing
+}

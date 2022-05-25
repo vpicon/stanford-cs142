@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+    <head>
+        <title>CS142 Project #4</title>
+    </head>
+    <body>
+        <h1>CS142 Project #4</h1>
+        <p>
+            If you can see this message it means your simple Node.js web server is working!
+        </p>
+        <p>
+            Your solutions to project #4 should be served by this web server from the following files
+            that can be clicked on to test in your browser:
+        </p>
+        <ul>
+            <li>Problem #1 - Getting started - <a href="getting-started.html">getting-started.html</a></li>
+            <li>Problem #2 - States display component - <a href="p2.html">p2.html</a></li>
+            <li>Problem #3 - Layout Personalization - <a href="p2.html">p2.html</a></li>
+            <li>Problem #4 - Dynamic view switching - <a href="p4.html">p4.html</a></li>
+            <li>Problem #5 - Single page app - <a href="p5.html">p5.html</a></li>
+        </ul>
+        <script type="text/javascript">
+            //<![CDATA[
+            // JavaScript frameworks have problems using the file protocol.
+            // Since the project's files are accessible using either the file or
+            // http protocols we warn the user if they are not using http.
+            if(window.location.protocol !== 'http:') {
+                var msg = "Project #4 files must be accessed with the http protocol (not from local files)."  +
+                                "\nUse the URL http://localhost:3000";
+                console.error(msg);
+                alert(msg);
+            }
+            //]]>
+        </script>
+    </body>
+</html>

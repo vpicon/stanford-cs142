@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>CS142 Project 6: Appserver and Database</title>
+    <meta name="description" content="Web Applications course at Stanford University">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/main.css">
+
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+
+    <script src="js/jquery.min.js"></script> 
+    <script src="js/bootstrap.min.js"></script>
+
+</head>
+
+
+  <body>
+
+    <header>
+
+  <nav class="navbar">
+    <div class="container">
+
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">CS142 (Winter 2021)</a>
+      </div>
+
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-right">
+          
+            
+            
+            <li class="">
+              <a href="index.html">Home</a> 
+            </li>
+          
+            
+            
+            <li class="">
+              <a href="info.html">Class Info</a> 
+            </li>
+          
+            
+            
+            <li class="">
+              <a href="lectures.html">Lectures</a> 
+            </li>
+          
+            
+            
+            <li class="nav-active">
+              <a href="projects.html">Projects</a> 
+            </li>
+          
+            
+            
+            <li class="">
+              <a href="staff.html">Staff</a> 
+            </li>
+          
+        </ul>
+      </div>
+      
+    </div>
+  </nav>
+</header>
+
+
+    
+
+        <main><div class="container">
+
+  <h1>CS142 Project 6: Appserver and Database</h1>
+
+  <h4 class="text-muted">
+    Due: Sunday, February 28, 2021 at 11:59 PM
+  </h4>
+
+  <p>
+  In this project you will start up a database system and convert your
+  Photo Sharing App you built in Project #5 to fetch the views' models from
+  it.  We provide you a new <code>webServer.js</code> supporting the same
+  interface as Project #5's web server but it also establishes a connection
+  to a database.  This allows you to make your app into a legitimate <em>full stack</em> application.
+  </p>
+
+  <section>
+    <h3 class="left-border">Setup</h3>
+    <p>
+      You should have MongoDB and Node.js installed on your system.
+      If not, follow the <a href="install.html">installation instructions</a> now.
+    </p>
+    <strong>*IMPORTANT!*</strong>
+    <p>
+      Project #6 setup is different from the previous projects. You start by making a copy of
+      your <code>project5</code> directory files into a directory named <code>project6</code>.
+      Into the <code>project6</code> directory extract the contents of
+      <a href="downloads/project6react.zip">this zip file</a>.
+      This zip file will overwrite the files
+      <code>package.json</code>, <code>webServer.js</code>, <code>.eslintrc.json</code>, and
+      <code>index.html</code> and add several new files and directories.
+      In the unlikely event you had made necessary changes in any of these files in your
+      <code>project5</code> directory you will need to reapply the changes after doing the unzip.
+    </p>
+    <p>
+      Once you have the Project #6 files, fetch the dependent software using the command:
+      <pre>npm install</pre>
+    </p>
+    <p>
+      For this and the rest of the assignments in the course we will be running all three tiers of the
+      web application (browser, web server, database) on your local machine.
+    </p>
+  </section>
+
+  <section>
+    <h3 class="left-border">Start and initialize the MongoDB database</h3>
+    <p>
+      Once you have installed MongoDB and created the directory for the database as described in
+      the <a href="install.html">installation instructions</a>,
+      you can start MongoDB by running the command:
+      <div class="code"><pre>mongod (the exact arguments depend on where you placed the database)</pre></div>
+      Since this command doesn't return until the database is shutdown you will want to either run it
+      in a separate window or as a background process (e.g. <code>mongod (args) &amp;</code> on Linux/MacOS).
+    </p>
+    <p>
+      Once the MongoDB server is started you can load the photo app data set by running the command:
+      <div class="code"><pre>node loadDatabase.js</pre></div>
+      This program loads the fake model data from previous projects (i.e. <code>modelData/photoApp.js</code>)
+      into the database.
+      Since our app currently doesn't have any support for adding or updating things you should only
+      need to run <code>loadDatabase.js</code> once. The program erases whatever is in the
+      database before loading the data set so it is safe to run multiple times.
+    </p>
+    <p>
+      We use the <a href="http://mongoosejs.com">MongooseJS</a> Object Definition Language (ODL) to
+      define a <a href="http://mongoosejs.com/docs/guide.html">schema</a>
+      to store the photo app data in MongoDB. The schema definition files are
+      in the directory <code>schema</code>:
+    <ul>
+    <li><code>schema/user.js</code> - Defines the User collection containing the objects describing each
+    user.</li>
+    <li><code>schema/photo.js</code> - Defines the Photos collection containing the objects describing each
+    photo. It also defines the objects we use to store the comments made on the photo. </li>
+    <li><code>schema/schemaInfo.js</code> - Defines the SchemaInfo collection containing the object
+      describing the schema version.</li>
+    </ul>
+    These files are loaded both into the <code>loadDatabase.js</code> program where they are used
+    to create the database and the
+    <code>webServer.js</code> where they are used to access the database.
+    Note: The object schema stored in the database is similar to but necessarily different from the
+    <code>cs142models</code> JavaScript objects used in the previous assignment.
+    Familiarize yourself with these schema definitions.
+    </p>
+  </section>
+
+  <section>
+    <h3 class="left-border">Start the Node.js web server</h3>
+    <p>
+    Once you have the database up and running you will need to start the web server. This
+    can be done with the same command as the previous assignments (e.g. <code>node webServer.js</code>).
+
+
+    Start your web server with the command from your
+    <code>project6</code> directory:
+    <div class="code"><pre>node webServer.js</pre></div>
+    </p>
+
+    <p>
+      If you use the above command, remember to
+      <strong>restart the web server after each change you make to the server code.</strong>
+      You can also use <code>nodemon</code>, which will watch for any changes to the server
+      code and automatically restart the web server:
+      <div class="code"><pre>nodemon webServer.js</pre></div>
+    </p>
+
+    <p>
+    After updating your Photo Share App with the new files from Project #6 and starting the database
+    and web server make sure the app is still working before continuing on to the assignment.
+    </p>
+  </section>
+
+  <section>
+    <h3 class="left-border">Problem 1: Convert the web server to use the database (40 points)</h3>
+    <p>
+    The <code>webServer.js</code> we give you in this project is like the Project #5
+      <code>webServer.js</code> in that the
+    app's model fetching routes use the magic <code>cs142models</code> rather than a database.
+    Your job is to convert all the routes to use the MongoDB database.
+    There should be no accesses
+    to <code>cs142models</code> in your code and your
+    app should work without the line:
+    <div class="code"><pre>var cs142models = require('./modelData/photoApp.js').cs142models;</pre></div>
+    in <code>webServer.js</code>. Note that any <code>console.log</code> statements in
+    <code>webServer.js</code> will print to the terminal rather than the browser.
+    </p>
+    <h4>Web Server API</h4>
+    <p>
+    As in Project #5 the web server will return JSON encoded model data in response to HTTP GET
+      requests to specific URLs. We provide the following specification of what URLs need to
+      be support and what they should return.
+    Your web server should support the following model fetching API:
+    <ul class="list--padding">
+    <li><code><strong>/test</strong></code> - Return the schema info (<code>/test/info</code>) and
+      object counts (<code>/test/counts</code>) of the database. This interface is for testing
+      and as an example for you, we provide an implementation that fetches the information
+      from the database. You will not have to change this one.
+    </li>
+    <li><code><strong>/user/list</strong></code> - Return the list of users' models appropriate for the
+    navigation sidebar list. Since we anticipate a large numbers of users, this API should only
+    return an array of the user properties needed by the navigation side bar
+      (<code>_id, first_name, last_name</code>).
+      It replaces the <code>cs142models.userListModel()</code> call in the provided code.</li>
+    <li><code><strong>/user/:id</strong></code> - Return the detail information of the user with _id of id.  This
+    should return the information we have on the user for the detail view
+    (<code>_id, first_name, last_name, location, description, occupation</code>) and
+    replaces the <code>cs142models.userModel()</code> call.
+      If something other than the id of a User is provided the
+    response should be an HTTP status of 400 and an informative message.</li>
+    <li><code><strong>/photosOfUser/:id</strong></code> - Return the photos of the user with _id of id. This call generates
+    all the model data needed for the photos view including all the photos of the user as well as
+    the comments on the photos. The photos properties should be
+      (<code>_id, user_id, comments, file_name, date_time</code>) and the comments array elements should have
+      (<code>comment, date_time, _id, user</code>) and only the minimum <code>user</code> object information
+      (<code>_id, first_name, last_name</code>).
+    This replaces the
+    <code>cs142models.photoOfUserModel()</code> call. If something other than the id of a User
+      is provided the response should be an HTTP status of 400 and an informative message. Note
+      this API will need some assembling from multiple different objects in the
+      database. The assignment's <code>package.json</code> file fetches the
+      <a href="https://github.com/caolan/async/blob/v1.5.2/README.md">async</a>
+      module to make the assembling the multiple photos easier.
+    </li>
+    </ul>
+    </p>
+    <p>
+      To help you make sure your web server conforms to the proper API we provide a test suite
+      in the sub-directory <code>test</code>. <strong>Please make sure that all of the tests in the suite pass before submitting.</strong> See the Testing section below for details.
+    </p>
+    <p>
+    Your GET requests do not return exactly the same thing that the
+    <code>cs142models</code> functions return but they do need to return the information needed
+    by your app so that the model data of each view can be displayed with a single <code>FetchModel</code> call.
+    You will need to do subsetting and/or augmentation of the objects coming from
+    the database to build your response to meet the needs of the UI. For this assignment you are
+      not allow to alter the database schema in anyway.
+    </p>
+    <strong>*IMPORTANT!*</strong>
+    <p>
+    Implementing these Express request handlers requires interacting with two different "model"
+    data objects. The Mongoose system returns
+    <a href="http://mongoosejs.com/docs/models.html">models</a> from the objects stored in MongoDB while
+    the request itself should return the data models needed by the Photo App views.
+    Unfortunately since the Mongoose models are set by the database schema and front end models
+    are set by the needs of the UI views they don't align perfectly. Handling these requests will require
+    processing to assemble the model needed by the front end from the Mongoose models
+    returned from the database.
+    </p>
+    <p>
+    Care needs to be taken when doing this processing since the models returned by
+    Mongoose are JavaScript objects but have special processing done on them so that any modifications
+    that do not match the declared schema are tossed. This means that simply updating a Mongoose model
+    to have the properties expected by the front end doesn't work as expected. One way to work around
+    this is to create a copy of the Mongoose model object. A simple way of doing the copy is to
+    translate the model into JSON and back to an JavaScript objects.  The following code fragment
+    does this object cloning:
+    <div class="code"><pre>JSON.parse(JSON.stringify(modelObject));</pre></div>
+    by taking <code>modelObject</code> converting into a JSON string and then converting it back
+    to a JavaScript object, this time without the methods and special handling done on Mongoose models.
+    </p>
+  </section>
+  <section>
+    <h3 class="left-border">Problem 2: Convert your app to use  <code>axios</code> (10 points)</h3>
+    <p>
+      In preparation for the next assignment where we will use more of the REST API, convert your
+      photo app to use <code>axios</code> rather than your own <code>FetchModel</code>
+      routine to fetch the models from the web server. <a href="https://github.com/axios/axios">Axios</a> is one of the many npm packages
+      available for fetching data. It is faster and has more functionality than our <code>FetchModel</code>
+      function, and it is what we will use to make our requests going forward.
+
+      Your photo app should work without the FetchModel function definition after finishing this
+      problem. The functionality of your app should be exactly the same before and after removing
+      the FetchModel function definition -- make sure you do not break anything in the process of
+      making this switch.
+    </p>
+
+    <p>
+      In particular, any time you call <code>FetchModel</code> in <code>photoShare.jsx</code> or
+      your other components, you should replace it with a call to <code>axios.get</code>.
+      See the <code>axios</code> <a href="https://github.com/axios/axios">documentation</a> for more details.
+    </p>
+
+    <p>
+      Here are some hints for making the switch to <code>axios</code>:
+      <ul class="list--padding">
+      <li>
+        <p>
+          In any components fetching data using <code>axios</code>, be sure to import
+          it as follows:
+        </p>
+        <div class="code"><pre>import axios from 'axios';</pre></div>
+      </li>
+      <li>
+        Notice that <code>axios.get</code> returns a Promise, much like <code>FetchModel</code>.
+        We can attach success and failure handlers using <code>.then</code> and <code>.catch</code>
+        respectively. It's important to handle both success and error cases for any requests.
+        You shouldn't have to change the logic of your handlers from <code>FetchModel</code>,
+        very much, or at all, when attaching them to <code>axios.get</code>.
+      </li>
+      </ul>
+    </p>
+  </section>
+  <section>
+    <h3 class="left-border">Testing</h3>
+    <p>
+    Testing a full web application is challenging. In the directory <code>test</code> we provide
+    a test of just the backend portion of your application. The test uses
+    <a href="https://mochajs.org">Mocha</a>, a popular framework for writing Node.js tests. To setup
+    the test environment, from inside the <code>test</code> subdirectory do an <code>npm install</code>
+    to fetch Mocha and all the related dependencies. Once you have done this, you can run the test by
+    running the command inside the <code>test</code> directory: <code>npm test</code>.
+    </p>
+    <p>
+    The <code>npm test</code> command runs the file <code>test/serverApiTest.js</code> which is a
+    program written in the Mocha language (e.g. <code>describe()</code> and <code>it()</code>) testing
+    the three Photo App backend URLs (<code>/user/list, /user/ID, /photosOfUser/ID</code>). <strong>In order to be reasonably sure that the functionality of the backend routes conforms to spec, please check that all our provided tests pass before submitting. A portion of your project grade will be based on how many of these tests you pass.</strong>
+    </p>
+    <h3 class="left-border">Extra Credit (10 points)</h3>
+    <p>
+    Your Photo App’s marketing department has come up with a “small” tweak to the app to make
+    it more social network friendly.  The change is:
+    <ul class="list--padding">
+    <li>
+    The side navigation bar containing the list of users shall include two
+    <a href="https://www.google.com/search?q=count+bubbles+UI&rlz=1C5CHFA_enUS503US503&espv=2&biw=1440&bih=782&source=lnms&tbm=isch&sa=X&ved=0ahUKEwjS7v2Ig4LLAhVM8GMKHTAlC8IQ_AUIBigB">count bubbles</a>
+    next to each user name. The first count bubble (colored green) should be the count of the
+    number of photos the user has in the system. The second bubble (colored red)
+    should be a count of the number of comments that the user has authored.
+    </li>
+    <li>
+    Clicking on the comment count bubble of a user should go to a new view component
+    that shows all the comments of the user. For each of the user's comments the view should show a
+    small thumbnail of the photo on which the comment was made and the text of the comment.
+    Clicking on the comment or photo should switch the view to photo's detail view containing that
+    photo and all its comments.  The exact view will depend on if you implemented the stepper extra
+    credit in project 5 or not.
+    </li>
+    <li>
+    This change should only be visible if the advanced feature flag of project 5 is enabled.
+    If you didn’t do the extra credit of Project #5 you don’t need to do the stepper but you will still
+    need to implement the advanced feature flag control so that the above extra credit functionality
+    can be toggled on or off.
+    </li>
+    </ul>
+    </p>
+    <p>
+    In implementing this you are welcome to add new server API calls or enhance existing calls.  If you
+    do so you need to update the Mocha test (<code>test/serverApiTest.js</code>)
+    to test your new functionality.  If you add new APIs include them in a new <code>describe()</code>
+    block following the pattern used by the other tests. Make sure that the provided tests still pass before submitting.
+    You should not add new properties to the Mongoose Schema but you are welcome to add any indexes you need to make this
+    work on larger data sets.
+    </p>
+    <p>
+    For grading the course staff will enable the Advanced Features setting on your app (if present)
+    and look for the count bubbles UI to determine whether or not they should grade you on the
+    extra credit portion.
+    </p>
+  </section>
+
+  <section>
+    <h3 class="left-border">Style Points (5 points)</h3>
+    <p>
+    These points will be awarded if your problem solutions have proper
+    MVC decomposition. In addition, your code and templates must be clean and
+    readable, and your app must be at least "reasonably nice"
+    in appearance and convenience.
+    </p>
+    <p>
+    In addition, your code and templates must be clean and readable.
+    Remember to run <code>npm run lint</code> before submitting. The linter should raise no errors.
+    </p>
+  </section>
+
+  <section>
+    <h3 class="left-border">Deliverables</h3>
+    <p>
+    Use the standard class <a href="submit.html">submission mechanism</a>
+    to submit the entire <code>project6</code> directory. Make sure your code is free of
+    any lint warnings and passes the provided test suite.
+    </p>
+  </section>
+
+</div>
+</main>
+
+    
+
+    <footer>
+  <div class="container text-center">
+    <small class="text-muted">
+    	Designed by Raymond Luong for CS142 at Stanford University
+    	<br>
+    	Powered by <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a> and <a href="https://jekyllrb.com" target="_blank">Jekyll</a> – <a href="website.html"><strong>learn more</strong></a>
+    </small>
+  </div>
+</footer>
+
+
+  </body>
+
+</html>

@@ -1,0 +1,31 @@
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.blocky {
+  display: block;
+
+  border-top: solid blue 1px;
+
+  width:  100px;
+  height: 100px;
+  text-align: center;
+  font-size: 40px;
+  font-family: Tahoma;
+}
+
+.blue {
+  background-color: #dfe1e7;
+}
+
+.lightblue {
+  background-color: #eeeff2;
+}
+
+.final {
+  background-color: #687291;
+  border: solid black 4pt;
+}
