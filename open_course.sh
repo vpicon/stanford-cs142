@@ -1,4 +1,9 @@
 #! /usr/bin/bash
 
-# firefox https://web.stanford.edu/class/cs142/index.html &
-firefox ./course_page/index.html
+if [ ! -d course_page ]
+then
+    tar xf course_page.tar.gz
+fi
+
+BROWSER=firefox
+$BROWSER "course_page/index.html"&
