@@ -1,6 +1,6 @@
 # Web Applications (CS142)
 
-WEB frontend programming, lecture notes and assignments from [CS142: Web Applications (Spring 2022)](https://web.stanford.edu/class/cs142/) course.
+WEB programming, lecture notes and assignments from [CS142: Web Applications (Spring 2022)](https://web.stanford.edu/class/cs142/) course.
 
 
 ## Course Contents
