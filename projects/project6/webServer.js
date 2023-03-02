@@ -166,22 +166,43 @@ app.get('/user/:id', function (request, response) {
  */
 app.get('/photosOfUser/:id', function (request, response) {
     var id = request.params.id;
-    var photos = {};
 
-    // Retrieve user from database
-    User.find({ user_id : id }, (error, queryPhotos) => {
-        if (error) response.status(501).send(error);
-        // response.status(200).send(users);
-        photos = queryPhotos;
+    Photo.find({ user_id : id }, (error, photos) => {
+        if (error) {
+            console.error(error);
+            response.status(501).send(error);
+            return;
+        }
+
+        if (photos.length === 0) {
+            console.log('Photos for user with _id:' + id + ' not found.');
+            response.status(400).send('Not found');
+            return;
+        }
+
+        var filteredPhotos = photos.map(photo => {
+            return {
+                _id: photo._id,
+                user_id: photo.user_id,
+                comments: photo.comments.map(comment => {
+                    return {
+                        comment: comment.comment,
+                        date_time: comment.date_time,
+                        _id: comment._id,
+                        user: {
+                            _id: comment.user._id,
+                            first_name: comment.user.first_name,
+                            last_name: comment.user.last_name
+                        }
+                    }
+                }),
+                file_name: photo.file_name,
+                date_time: photo.date_time
+            }
+        });
+
+        response.status(200).send(filteredPhotos);
     });
-
-    // Send photos response
-    if (photos.length === 0) {
-        console.log('Photos for user with _id:' + id + ' not found.');
-        response.status(400).send('Not found');
-        return;
-    }
-    response.status(200).send(photos);
 });
 
 
