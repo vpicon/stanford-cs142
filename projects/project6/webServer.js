@@ -133,8 +133,26 @@ app.get('/test/:p1', function (request, response) {
 app.get('/user/list', function (request, response) {
     //response.status(200).send(cs142models.userListModel());
     User.find((error, users) => {
-        if (error) response.status(501).send(error);
-        response.status(200).send(users);
+        if (error) {
+            console.error(error);
+            response.status(501).send(error);
+            return;
+        }
+        
+        if (users.length === 0) {
+            console.log('No users found.');
+            response.status(400).send('Not Found');
+            return;
+        }
+        
+        var filteredUsers = users.map(user => {
+            return {
+                _id: user._id,
+                first_name: user.first_name,
+                last_name: user.last_name,
+            }
+        })
+        response.status(200).send(filteredUsers);
     });
 });
 
